@@ -48,9 +48,11 @@ group :development do
   gem 'better_errors'
 
   gem 'pry-rails'
-
+  gem 'figaro'
 end
 
 gem 'rails_admin'
 gem 'mechanize'
 gem 'haml'
+gem 'airbrake'
+gem 'awesome_print'

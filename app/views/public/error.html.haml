@@ -1,0 +1,6 @@
+%h1 Exception
+.alert.alert-danger
+  %p [#{@error_id}] - #{@e.message}
+  /
+    = debug @e
+
