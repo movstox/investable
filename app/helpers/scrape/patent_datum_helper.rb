@@ -1,0 +1,2 @@
+module Scrape::PatentDatumHelper
+end

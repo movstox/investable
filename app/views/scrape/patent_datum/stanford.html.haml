@@ -1,0 +1,8 @@
+%h1 Stanford patent data
+%table
+  - @patent_datum.each do |h|
+    %tr
+      %td 
+        %h3 #{h[:label]}
+      %td
+        =h[:value]
