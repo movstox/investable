@@ -1,6 +1,8 @@
 %h1 Exception
 .alert.alert-danger
   %p [#{@error_id}] - #{@e.message}
+  - if Rails.env.development?
+    %span #{@e.backtrace.first}
   /
     = debug @e
 
