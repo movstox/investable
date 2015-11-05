@@ -27,7 +27,9 @@ class PatentDatumParser::Base
       :patent_status_ref,
       :abstract,
       :applications,
-      :value_proposition
+      :value_proposition,
+      :licensing_contact_name,
+      :licensing_contact_num
     ].map do |data_key|
       {
         id: data_key,

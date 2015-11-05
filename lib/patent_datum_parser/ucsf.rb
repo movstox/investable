@@ -8,21 +8,73 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def value_proposition
-    page.search('//h3[contains(., "Value Proposition")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    data = page.search('//h3[contains(., "Value Proposition")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    if data.empty?
+      # try another strategy
+      advantages_section = page.search('//h3[contains(., "Advantages")]')
+      if advantages_section.any?
+        data = advantages_section.first.next.next.children.map {|x| x.text}
+      end
+    end
+    data
   end
 
   def applications
-    page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    data = page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+
+    if data.empty?
+      # try another strategy
+      applications_section = page.search('//h3[contains(., "Applications")]')
+      if applications_section.any?
+        data = applications_section.first.next.next.children.map {|x| x.text}
+      end
+    end
+
+    if data.empty?
+      # try another strategy
+      applications_section = page.search('//h3[contains(., "Application")]')
+      if applications_section.any?
+        data = applications_section.first.next.next.children.map {|x| x.text}
+      end
+    end
+
+    if data.empty?
+      # try another strategy
+      applications_section = page.search('//h3[contains(., "Applications")]')
+      if applications_section.any?
+        data = applications_section.first.next.next.children.map {|x| x.text}
+      end
+    end
+
+    if data.empty?
+      # try another strategy
+      data = page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Value Proposition")][1]/preceding-sibling::node()) = count(//h3[contains(., "Value Proposition")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    end
+    data
   end
 
   def abstract
-    page.search('//h3[contains(., "Technology Description")][1]/following-sibling::node()[count(.|//h3[contains(., "Applications")][1]/preceding-sibling::node()) = count(//h3[contains(., "Applications")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    data = page.search('//h3[contains(., "Technology Description")][1]/following-sibling::node()[count(.|//h3[contains(., "Applications")][1]/preceding-sibling::node()) = count(//h3[contains(., "Applications")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    if data.empty?
+      # try another strategy
+      if page.search('//h3[contains(., "Technology Description")]').any? && page.search('//h3[contains(., "Application")]').any?
+        data = page.search('//h3[contains(., "Technology Description")][1]/following-sibling::node()[count(.|//h3[contains(., "Application")][1]/preceding-sibling::node()) = count(//h3[contains(., "Application")][1]/preceding-sibling::node())]').map { |x| 
+          x.text unless x.text.gsub(/\s/,'').empty?
+        }.compact
+      end
+    end
+    data
   end
 
   def patent_status_ref
     patent_status_ref_section = page.search('//h3[contains(., "Patent Status")]')
     if patent_status_ref_section.any?
-      patent_status_ref_section.first.try(:next).next.children.search('tr')[1].children[5].text.gsub(/,/,'')
+      patent_status_ref_table = patent_status_ref_section.first.try(:next).next
+      if patent_status_ref_table.name == 'table'
+        patent_status_ref_table.children.search('tr')[1].children[5].text.gsub(/,/,'')
+      else
+        'N/A'
+      end
     else
       'N/A'
     end
