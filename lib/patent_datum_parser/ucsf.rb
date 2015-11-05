@@ -19,36 +19,25 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
     data
   end
 
-  def applications
+  def invention_novelty
     data = page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
 
     if data.empty?
       # try another strategy
-      applications_section = page.search('//h3[contains(., "Applications")]')
-      if applications_section.any?
-        data = applications_section.first.next.next.children.map {|x| x.text}
-      end
-    end
-
-    if data.empty?
-      # try another strategy
-      applications_section = page.search('//h3[contains(., "Application")]')
-      if applications_section.any?
-        data = applications_section.first.next.next.children.map {|x| x.text}
-      end
-    end
-
-    if data.empty?
-      # try another strategy
-      applications_section = page.search('//h3[contains(., "Applications")]')
-      if applications_section.any?
-        data = applications_section.first.next.next.children.map {|x| x.text}
-      end
-    end
-
-    if data.empty?
-      # try another strategy
       data = page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Value Proposition")][1]/preceding-sibling::node()) = count(//h3[contains(., "Value Proposition")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    end
+    data
+  end
+
+  def applications
+    data = page.search('//h3[contains(., "Application")][1]/following-sibling::node()[count(.|//h3[contains(., "Looking for Partners")][1]/preceding-sibling::node()) = count(//h3[contains(., "Looking for Partners")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+
+    if data.empty?
+      # try another strategy
+      applications_section = page.search('//h3[contains(., "Applications")]')
+      if applications_section.any?
+        data = applications_section.first.next.next.children.map {|x| x.text}
+      end
     end
     data
   end

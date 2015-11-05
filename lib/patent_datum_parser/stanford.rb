@@ -23,8 +23,22 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
     page.search('//*[@id="wrap"]').text
   end
 
+  def patent_status
+    patent_status_section = page.search('//h3[contains(., "Patent Status")]')
+    if patent_status_section.any?
+      patent_status_section.first.next.next.next.children.map{|x| x.text}.first.split(': ').first
+    else
+      'N/A'
+    end
+  end
+
   def patent_status_ref
-    page.search('//*[@id="Standard"]/ul[6]/li/a').text.split(': ').last
+    patent_status_section = page.search('//h3[contains(., "Patent Status")]')
+    if patent_status_section.any?
+      patent_status_section.first.next.next.next.children.map{|x| x.text}.first.split(': ').last
+    else
+      'N/A'
+    end
   end
   
   def keywords
@@ -37,9 +51,5 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
 
   def title
     page.search('//*[@id="Standard"]/h1').text
-  end
-  
-  def patent_status
-    page.search('//*[@id="Standard"]/ul[6]/li/a').text.split(': ').first
   end
 end
