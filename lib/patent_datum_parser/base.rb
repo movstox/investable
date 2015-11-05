@@ -12,7 +12,8 @@ class PatentDatumParser::Base
     invention_novelty: 'Invention Novelty',
     value_proposition: 'Value proposition',   
     licensing_contact_name: 'Licensing Contact Name', 
-    licensing_contact_num: 'Licensing Contact Phone' 
+    licensing_contact_num: 'Licensing Contact Phone',
+    inventors: 'Inventors'
   }
 
   def initialize(opts)
@@ -31,7 +32,8 @@ class PatentDatumParser::Base
       :invention_novelty,
       :value_proposition,
       :licensing_contact_name,
-      :licensing_contact_num
+      :licensing_contact_num,
+      :inventors
     ].map do |data_key|
       {
         id: data_key,

@@ -1,4 +1,14 @@
 class PatentDatumParser::Stanford < PatentDatumParser::Base
+
+  def inventors
+    inventors_section = page.search('//h3[contains(., "Innovators")]')
+    if inventors_section.any?
+      inventors_section.first.next.next.next.children.map {|inventor_text| inventor_text.text.scan(/[\w,-]+\s\w+/).first}
+    else
+      []
+    end
+  end
+
   def invention_novelty
     'N/A'
   end

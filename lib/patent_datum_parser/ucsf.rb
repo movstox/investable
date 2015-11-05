@@ -1,5 +1,14 @@
 class PatentDatumParser::UCSF < PatentDatumParser::Base
- def licensing_contact_num
+  def inventors
+    inventors_section = page.search('//h3[contains(., "Inventors")]')
+    if inventors_section.any?
+      inventors_section.first.next.children.map {|x| x.text}
+    else
+      []
+    end
+  end
+
+  def licensing_contact_num
     page.search('//*[@id="hiddenPhoneNumber"]').first['value']
   end
 
