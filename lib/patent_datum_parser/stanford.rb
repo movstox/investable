@@ -18,7 +18,7 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   end
 
   def licensing_contact_name
-    page.search('//h3[contains(., "Licensing Contact")]').first.next.next.text
+    page.search('//h3[contains(., "Licensing Contact")]').first.next.next.text.split(',').first
   end
 
   def value_proposition
