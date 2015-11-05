@@ -22,11 +22,21 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   end
 
   def value_proposition
-    page.search('//*[@id="Standard"]/ul[2]').children.map{|l| l.text}
+    section = page.search('//h3[contains(., "Advantages")]')
+    if section.any?
+      section.first.next.next.next.children.map{|i| i.text}
+    else
+      []
+    end
   end
 
   def applications
-   page.search('//*[@id="Standard"]/ul[1]').children.map{|l| l.text}
+    section = page.search('//h3[contains(., "Applications")]')
+    if section.any?
+      section.first.next.next.next.children.map{|i| i.text}
+    else
+      []
+    end
   end
 
   def abstract
@@ -56,7 +66,7 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   end
 
   def ref
-    page.search('//*[@id="Standard"]/h3[1]').text
+    page.search('//h2[contains(., "Reference")]').first.next.next.text
   end
 
   def title
