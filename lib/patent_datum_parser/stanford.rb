@@ -1,4 +1,8 @@
 class PatentDatumParser::Stanford < PatentDatumParser::Base
+  def invention_novelty
+    'N/A'
+  end
+
   def licensing_contact_num
     page.search('//h3[contains(., "Licensing Contact")]').first.next.next.next.next.text
   end

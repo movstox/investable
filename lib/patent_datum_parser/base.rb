@@ -9,6 +9,7 @@ class PatentDatumParser::Base
     patent_status_ref: 'Patent status ref #',
     abstract: 'Abstract',
     applications: 'Applications',
+    invention_novelty: 'Invention Novelty',
     value_proposition: 'Value proposition',   
     licensing_contact_name: 'Licensing Contact Name', 
     licensing_contact_num: 'Licensing Contact Phone' 
@@ -27,6 +28,7 @@ class PatentDatumParser::Base
       :patent_status_ref,
       :abstract,
       :applications,
+      :invention_novelty,
       :value_proposition,
       :licensing_contact_name,
       :licensing_contact_num
