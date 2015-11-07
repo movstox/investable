@@ -1,4 +1,10 @@
 class Scrape::PatentDatumController < ApplicationController
+  def berkeley
+    url = 'https://techtransfer.universityofcalifornia.edu/NCD/%s.html' % params[:ref_id]
+    @patent_datum = scrape ::PatentDatumParser::Berkeley, url
+    render 'patent_datum'
+  end
+
   def ucsf
     url = 'https://techtransfer.universityofcalifornia.edu/NCD/%s.html' % params[:ref_id]
     @patent_datum = scrape ::PatentDatumParser::UCSF, url

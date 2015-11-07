@@ -79,7 +79,12 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
   
   def keywords
-    page.search('//*[@id="subBlockThree"]/div/section/div[2]/section/div[5]').children.first.next.text.split(', ')
+    section = page.search('//*[@id="subBlockThree"]/div/section/div[2]/section/div[5]')
+    if section.children.any?
+      section.children.first.next.text.split(', ')
+    else
+      []
+    end
   end
 
   def ref
