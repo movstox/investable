@@ -25,5 +25,7 @@ vendor/gems
 
 todo.md
 *.swp
+*.swo
+*.swn
 
 /vendor/*
