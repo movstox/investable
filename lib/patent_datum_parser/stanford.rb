@@ -40,7 +40,11 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   end
 
   def abstract
-    page.search('//*[@id="wrap"]').text
+    stop_searching = false
+    page.search('//*[@id="wrap"]').first.children.map { |child_node|
+      stop_searching = true if (child_node.name == 'b') && (child_node.text == 'Stage of research') 
+      child_node.text unless stop_searching
+    }.compact.join(' ')
   end
 
   def patent_status
