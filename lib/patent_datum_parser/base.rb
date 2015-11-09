@@ -47,4 +47,15 @@ class PatentDatumParser::Base
   def page
     opts[:page]
   end
+  
+  def text_between(section1_title, section2_title)
+    path = "//h3[contains(., \"%{section1}\")][1]/following-sibling::node()[count(.|//h3[contains(., \"%{section2}\")][1]/preceding-sibling::node()) = count(//h3[contains(., \"%{section2}\")][1]/preceding-sibling::node())]" % {
+      section1: section1_title,
+      section2: section2_title
+    }
+    data = page.search(path).map {|x| 
+      s = x.text.gsub(/&nbsp;/,'').gsub(/^\r\n/,'').gsub(/.\r\n/,'. ').gsub(/\.{2,}/,'')
+      s unless s.gsub(/\s/, '').empty?
+    }.compact
+  end
 end

@@ -17,7 +17,7 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def value_proposition
-    data = page.search('//h3[contains(., "Value Proposition")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    data = text_between 'Value Proposition', 'Technology Description'
     if data.empty?
       # try another strategy
       advantages_section = page.search('//h3[contains(., "Advantages")]')
@@ -29,17 +29,16 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def invention_novelty
-    data = page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Technology Description")][1]/preceding-sibling::node()) = count(//h3[contains(., "Technology Description")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
-
+    data = text_between 'Invention Novelty', 'Value Proposition'
     if data.empty?
       # try another strategy
-      data = page.search('//h3[contains(., "Invention Novelty")][1]/following-sibling::node()[count(.|//h3[contains(., "Value Proposition")][1]/preceding-sibling::node()) = count(//h3[contains(., "Value Proposition")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+      data = text_between 'Invention Novelty', 'Technology Description'
     end
     data
   end
 
   def applications
-    data = page.search('//h3[contains(., "Application")][1]/following-sibling::node()[count(.|//h3[contains(., "Looking for Partners")][1]/preceding-sibling::node()) = count(//h3[contains(., "Looking for Partners")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    data = text_between 'Application', 'Looking for Partners'
 
     if data.empty?
       # try another strategy
@@ -52,13 +51,11 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def abstract
-    data = page.search('//h3[contains(., "Technology Description")][1]/following-sibling::node()[count(.|//h3[contains(., "Applications")][1]/preceding-sibling::node()) = count(//h3[contains(., "Applications")][1]/preceding-sibling::node())]').map {|x| x.text unless x.text.gsub(/\s/,'').empty?}.compact
+    data = text_between 'Technology Description', 'Applications'
     if data.empty?
       # try another strategy
       if page.search('//h3[contains(., "Technology Description")]').any? && page.search('//h3[contains(., "Application")]').any?
-        data = page.search('//h3[contains(., "Technology Description")][1]/following-sibling::node()[count(.|//h3[contains(., "Application")][1]/preceding-sibling::node()) = count(//h3[contains(., "Application")][1]/preceding-sibling::node())]').map { |x| 
-          x.text unless x.text.gsub(/\s/,'').empty?
-        }.compact
+        data = text_between 'Technology Description', 'Application'
       end
     end
     data
