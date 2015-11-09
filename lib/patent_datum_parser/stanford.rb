@@ -1,4 +1,12 @@
 class PatentDatumParser::Stanford < PatentDatumParser::Base
+  def stage_of_research
+    start_searching = false
+    page.search('//*[@id="wrap"]').first.children.map { |child_node|
+      data = child_node.text if start_searching
+      start_searching = true if (child_node.name == 'b') && (child_node.text.downcase.gsub(/\s$/,'').scan(/stage of research/).any?) 
+      data.gsub(/\r\n/, '') if data.present? && !data.empty?
+    }.compact
+  end
 
   def inventors
     inventors_section = page.search('//h3[contains(., "Innovators")]')

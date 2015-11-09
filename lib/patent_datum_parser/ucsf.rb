@@ -1,4 +1,8 @@
 class PatentDatumParser::UCSF < PatentDatumParser::Base
+  def stage_of_research
+    text_section 'Stage of Development'
+  end
+
   def inventors
     inventors_section = page.search('//h3[contains(., "Inventors")]')
     if inventors_section.any?
@@ -29,6 +33,7 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def invention_novelty
+    text_section 'Invention Novelty'
     data = text_between 'Invention Novelty', 'Value Proposition'
     if data.empty?
       # try another strategy
@@ -51,14 +56,7 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def abstract
-    data = text_between 'Technology Description', 'Applications'
-    if data.empty?
-      # try another strategy
-      if page.search('//h3[contains(., "Technology Description")]').any? && page.search('//h3[contains(., "Application")]').any?
-        data = text_between 'Technology Description', 'Application'
-      end
-    end
-    data
+    text_section 'Technology Description'
   end
 
   def patent_status_ref
@@ -104,5 +102,19 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
     else
       'N/A'
     end
+  end
+  protected
+
+  def text_section(section_title)
+    stop_searching = false
+    child_node = page.search("//h3[contains(., \"%s\")]" % section_title).first
+    [].tap { |lines|
+      until stop_searching do
+        child_node = child_node.next 
+        stop_searching = true if (child_node.name == 'h3') 
+        text = child_node.text
+        lines << text unless stop_searching || text.empty? 
+      end
+    }.compact
   end
 end

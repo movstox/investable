@@ -13,7 +13,8 @@ class PatentDatumParser::Base
     value_proposition: 'Value proposition',   
     licensing_contact_name: 'Licensing Contact Name', 
     licensing_contact_num: 'Licensing Contact Phone',
-    inventors: 'Inventors'
+    inventors: 'Inventors',
+    stage_of_research: 'Stage of Research'
   }
 
   def initialize(opts)
@@ -33,7 +34,8 @@ class PatentDatumParser::Base
       :value_proposition,
       :licensing_contact_name,
       :licensing_contact_num,
-      :inventors
+      :inventors,
+      :stage_of_research
     ].map do |data_key|
       {
         id: data_key,
@@ -47,7 +49,7 @@ class PatentDatumParser::Base
   def page
     opts[:page]
   end
-  
+
   def text_between(section1_title, section2_title)
     path = "//h3[contains(., \"%{section1}\")][1]/following-sibling::node()[count(.|//h3[contains(., \"%{section2}\")][1]/preceding-sibling::node()) = count(//h3[contains(., \"%{section2}\")][1]/preceding-sibling::node())]" % {
       section1: section1_title,
