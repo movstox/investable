@@ -42,7 +42,7 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   def abstract
     stop_searching = false
     page.search('//*[@id="wrap"]').first.children.map { |child_node|
-      stop_searching = true if (child_node.name == 'b') && (child_node.text == 'Stage of research') 
+      stop_searching = true if (child_node.name == 'b') && (child_node.text.downcase.gsub(/\s$/,'') == 'stage of research') 
       child_node.text unless stop_searching
     }.compact.join(' ')
   end
