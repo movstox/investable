@@ -13,11 +13,21 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def licensing_contact_num
-    page.search('//*[@id="hiddenPhoneNumber"]').first['value']
+    section = page.search('//*[@id="hiddenPhoneNumber"]')
+    if section.any?
+      section.first['value']
+    else
+      'N/A'
+    end
   end
 
   def licensing_contact_name
-    page.search('//*[@id="contact-person"]').text
+    section = page.search('//*[@id="contact-person"]')
+    if section.present?
+      section.text
+    else
+      'N/A'
+    end
   end
 
   def value_proposition
