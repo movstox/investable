@@ -108,6 +108,7 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   def text_section(section_title)
     stop_searching = false
     child_node = page.search("//h3[contains(., \"%s\")]" % section_title).first
+    return [] unless child_node.present?
     [].tap { |lines|
       until stop_searching do
         child_node = child_node.next 
