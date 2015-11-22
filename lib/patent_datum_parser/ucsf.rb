@@ -4,7 +4,7 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def inventors
-    inventors_section = page.search('//h3[contains(., "Inventors")]')
+    inventors_section = page.search('//h3[starts-with(., "Inventors")]')
     if inventors_section.any?
       inventors_section.first.next.children.map {|x| x.text}
     else
