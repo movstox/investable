@@ -124,6 +124,14 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
       'N/A'
     end
   end
+
+  def patent_release_date
+    'N/A'
+  end
+
+  def publications
+    []
+  end
   protected
 
   def text_section(section_title)

@@ -1,10 +1,12 @@
 class PatentDatumParser::Stanford < PatentDatumParser::Base
   def stage_of_research
     start_searching = false
+    stop_searching = false
     page.search('//*[@id="wrap"]').first.children.map { |child_node|
-      data = child_node.text if start_searching
+      data = child_node.text if start_searching && !stop_searching
       start_searching = true if (child_node.name == 'b') && (child_node.text.downcase.gsub(/\s$/,'').scan(/stage of research/).any?) 
-      data.gsub(/\r\n/, '') if data.present? && !data.empty?
+      stop_searching = true if (child_node.name == 'b') && (child_node.text.downcase.gsub(/\s$/,'').scan(/stage of research/).empty?) 
+      data.gsub(/\r\n/, '') if data.present? && !data.empty? && !stop_searching
     }.compact
   end
 
@@ -54,7 +56,7 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   def abstract
     stop_searching = false
     page.search('//*[@id="wrap"]').first.children.map { |child_node|
-      stop_searching = true if (child_node.name == 'b') && (child_node.text.downcase.gsub(/\s$/,'') == 'stage of research') 
+      stop_searching = true if (child_node.name == 'b')
       child_node.text unless stop_searching
     }.compact.join(' ')
   end
@@ -68,6 +70,15 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
     end
   end
 
+  def patent_release_date
+    patent_release_date_section = page.search('//h3[contains(., "Date Released")]')
+    if patent_release_date_section.any?
+      patent_release_date_section.first.next.text
+    else
+      'N/A'
+    end
+  end
+  
   def patent_status_ref
     patent_status_section = page.search('//h3[contains(., "Patent Status")]')
     if patent_status_section.any?
@@ -87,5 +98,14 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
 
   def title
     page.search('//*[@id="Standard"]/h1').text
+  end
+  
+  def publications
+    publications_section = page.search('//h3[contains(., "Publications")]')
+    if publications_section.any?
+      publications_section.first.next.next.next.children.map{|x| x.text}
+    else
+      'N/A'
+    end
   end
 end

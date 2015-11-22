@@ -7,6 +7,7 @@ class PatentDatumParser::Base
     keywords: 'Keywords',
     patent_status: 'Patent status',
     patent_status_ref: 'Patent status ref #',
+    patent_release_date: 'Patent Release Date',
     abstract: 'Abstract',
     applications: 'Applications',
     invention_novelty: 'Invention Novelty',
@@ -15,7 +16,8 @@ class PatentDatumParser::Base
     licensing_contact_num: 'Licensing Contact Phone',
     licensing_contact_email: 'Licensing Contact Email',
     inventors: 'Inventors',
-    stage_of_research: 'Stage of Research'
+    stage_of_research: 'Stage of Research',
+    publications: 'Publications'
   }
 
   def initialize(opts)
@@ -29,6 +31,7 @@ class PatentDatumParser::Base
       :keywords,
       :patent_status,
       :patent_status_ref,
+      :patent_release_date,
       :abstract,
       :applications,
       :invention_novelty,
@@ -37,7 +40,8 @@ class PatentDatumParser::Base
       :licensing_contact_num,
       :licensing_contact_email,
       :inventors,
-      :stage_of_research
+      :stage_of_research,
+      :publications
     ].map do |data_key|
       {
         id: data_key,
