@@ -30,21 +30,28 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
     end
   end
 
+  def licensing_contact_email
+    section = page.search('//*[@id="email"]')
+    if section.present?
+      section.text
+    else
+      'N/A'
+    end
+  end
+
   def value_proposition
-    data = text_between 'Value Proposition', 'Technology Description'
+    data = text_section 'Value Proposition'
     if data.empty?
-      # try another strategy
-      advantages_section = page.search('//h3[contains(., "Advantages")]')
-      if advantages_section.any?
-        data = advantages_section.first.next.next.children.map {|x| x.text}
-      end
+      data = text_section 'Advantages'
+    end
+    if data.empty?
+      data = text_section 'Features'
     end
     data
   end
 
   def invention_novelty
-    text_section 'Invention Novelty'
-    data = text_between 'Invention Novelty', 'Value Proposition'
+    data = text_section 'Invention Novelty'
     if data.empty?
       # try another strategy
       data = text_between 'Invention Novelty', 'Technology Description'
@@ -53,7 +60,7 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def applications
-    data = text_between 'Application', 'Looking for Partners'
+    data = text_section 'Application'
 
     if data.empty?
       # try another strategy
@@ -62,11 +69,15 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
         data = applications_section.first.next.next.children.map {|x| x.text}
       end
     end
+    data = text_section 'Suggested uses' if data.empty?
     data
   end
 
   def abstract
-    text_section 'Technology Description'
+    data = text_section 'Full Description'
+    data = text_section 'Brief Descri' if data.empty?
+    data = text_section 'Technology Description' if data.empty?
+    data
   end
 
   def patent_status_ref
@@ -121,11 +132,27 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
     return [] unless child_node.present?
     [].tap { |lines|
       until stop_searching do
-        child_node = child_node.next 
-        stop_searching = true if (child_node.name == 'h3') 
-        text = child_node.text
-        lines << text unless stop_searching || text.empty? 
+        break unless child_node.present?
+        child_node = child_node.next
+        stop_searching = true if (child_node.present? && child_node.name == 'h3') 
+        unless stop_searching or child_node.nil? or child_node.text.empty?
+          text = if child_node.name == 'ul'
+                   child_node.children.map do |li| 
+                     if li.name == 'ul'
+                       li.children.map {|c| c.text.gsub(/\s+$/,'').gsub(/^\s+/,'')}
+                     else
+                       li.text.gsub(/\s+$/,'').gsub(/^\s+/,'')
+                     end
+                   end
+                 else
+                   child_node.text.gsub(/\s+$/,'').gsub(/^\s+/,'')
+                 end
+          lines << text
+        end
       end
-    }.compact
+    }
+     .flatten
+     .map{|c| c unless c.empty?}
+     .compact
   end
 end

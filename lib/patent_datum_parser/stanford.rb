@@ -29,6 +29,10 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
     page.search('//h3[contains(., "Licensing Contact")]').first.next.next.text.split(',').first
   end
 
+  def licensing_contact_email
+    'N/A'
+  end
+
   def value_proposition
     section = page.search('//h3[contains(., "Advantages")]')
     if section.any?

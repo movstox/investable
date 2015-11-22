@@ -13,6 +13,7 @@ class PatentDatumParser::Base
     value_proposition: 'Value proposition',   
     licensing_contact_name: 'Licensing Contact Name', 
     licensing_contact_num: 'Licensing Contact Phone',
+    licensing_contact_email: 'Licensing Contact Email',
     inventors: 'Inventors',
     stage_of_research: 'Stage of Research'
   }
@@ -34,6 +35,7 @@ class PatentDatumParser::Base
       :value_proposition,
       :licensing_contact_name,
       :licensing_contact_num,
+      :licensing_contact_email,
       :inventors,
       :stage_of_research
     ].map do |data_key|
