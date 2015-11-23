@@ -103,7 +103,12 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
   def publications
     publications_section = page.search('//h3[contains(., "Publications")]')
     if publications_section.any?
-      publications_section.first.next.next.next.children.map{|x| x.text}
+      publications_section.first.next.next.next.children.map do |x|
+        {
+          title: x.text,
+          link: ''
+        }
+      end
     else
       'N/A'
     end

@@ -130,7 +130,18 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def publications
-    []
+    related_materials_section = page.search('//h3[starts-with(., "Related Materials")]')
+    if related_materials_section.any?
+      related_materials_contents = related_materials_section.first.next.next
+      related_materials_contents.children.map do |li|
+        {
+          title: li.text , 
+          link: URI.unescape(li.search('a').first['href'])
+        }
+      end
+    else
+      []
+    end
   end
   protected
 
