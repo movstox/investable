@@ -87,6 +87,10 @@ class PatentDatumParser::Stanford < PatentDatumParser::Base
       'N/A'
     end
   end
+
+  def patent_applications
+    []
+  end
   
   def keywords
     page.links_with(href: /search=keyword/).map{|l| l.text}

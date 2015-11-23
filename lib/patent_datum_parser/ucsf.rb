@@ -130,14 +130,33 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
     'N/A'
   end
 
+  def patent_applications
+    patent_applications_section = page.search('//h3[starts-with(., "Patent Status")]')
+    if patent_applications_section.any?
+      patent_applications_contents = patent_applications_section.first.next.next
+      patent_applications_contents.children.search('//*[contains(@class,"patentRow")]').map do |row|
+        columns = row.search('td')
+        {
+          country: columns[0].text,
+          type: columns[1].text,
+          number: columns[2].text,
+          ref_date: columns[3].text,
+          case: columns[4].text
+        }
+      end
+    else
+      []
+    end
+  end
+
   def publications
-    related_materials_section = page.search('//h3[starts-with(., "Related Materials")]')
+    related_materials_section = page.search('//h3[starts-with(., "related materials")]')
     if related_materials_section.any?
       related_materials_contents = related_materials_section.first.next.next
       related_materials_contents.children.map do |li|
         {
           title: li.text , 
-          link: URI.unescape(li.search('a').first['href'])
+          link: uri.unescape(li.search('a').first['href'])
         }
       end
     else
