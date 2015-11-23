@@ -74,8 +74,9 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   end
 
   def abstract
-    data = text_section 'Full Description'
-    data = text_section 'Brief Descri' if data.empty?
+    data1 = text_section 'Brief Descri'
+    data2 = text_section 'Full Descri'
+    data = (data1 + data2).join(' ').gsub(/\s^/,'')
     data = text_section 'Technology Description' if data.empty?
     data
   end
