@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'welcome/index'
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   namespace :scrape do
@@ -6,6 +8,9 @@ Rails.application.routes.draw do
     get 'ucsf/:ref_id' => 'patent_datum#ucsf'
     get 'berkeley/:ref_id' => 'patent_datum#berkeley'
   end
+
+  root 'welcome#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
