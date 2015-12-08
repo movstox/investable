@@ -1,0 +1,17 @@
+<div class="list-group" id="sidebar"  data-spy="affix" data-offset-top="15">
+  <ul class="nav nav-pills nav-stacked">
+    <li><a href="#title">Title & Abstract</a></li>
+    <% section_order.each do |section_key| %>
+      <% if has_data v(p, section_key) %>
+        <li><a href="#<%=section_key%>"><%=p[section_key][:label]%></a></li>
+      <% end %>
+    <% end %>
+    <li>
+      <br/>
+      <%= render partial: 'p_current_status_pane', locals: {p: p}%>
+    </li>
+    <li>
+      <%= render partial: 'p_licensing_contact_pane', locals: {p: p}%>
+    </li>
+  </ul>
+</div>

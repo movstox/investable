@@ -9,7 +9,14 @@ Rails.application.routes.draw do
     get 'berkeley/:ref_id' => 'patent_datum#berkeley'
   end
 
-  root 'welcome#index'
+  namespace :patent do
+    get 'stanford/:ref_id' => 'patent_datum#stanford'
+    get 'ucsf/:ref_id' => 'patent_datum#ucsf'
+    get 'berkeley/:ref_id' => 'patent_datum#berkeley'
+  end
+
+  root 'welcome#index2'
+  get 'search' => 'welcome#search'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

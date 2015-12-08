@@ -1,0 +1,8 @@
+<%- if v(@p, k).any? %>
+  <dl class="dl-horizontal">
+      <dt><%=l(@p, k)%></dt>
+      <% v(@p, k).each do |v| %>
+        <dd><%=v%></dd>
+      <% end %>
+  </dl>
+<% end %>

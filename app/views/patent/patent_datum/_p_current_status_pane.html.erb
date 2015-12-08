@@ -1,0 +1,27 @@
+<div class="bs-callout bs-callout-danger">
+  <h3><strong>Current status</strong></h3>
+  <!-- status section -->
+  <hr/>
+  <p>
+    <table>
+      <tbody>
+        <tr>
+          <td><%=v(@p, :patent_status)%></td>
+          <td>&nbsp;</td>
+        </tr>
+        <% if has_data v(@p, :patent_status_ref) %>
+          <tr>
+            <td>Ref #</td>
+            <td class="text-right"><%=v(@p, :patent_status_ref)%></td>
+          </tr>
+        <% end %>
+        <% if has_data v(@p, :patent_release_date) %>
+          <tr>
+            <td>Release Date</td>
+            <td class="text-right"><%=v(@p, :patent_release_date)%></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </p>
+</div>

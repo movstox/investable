@@ -1,0 +1,9 @@
+<%- if v(@p, k).any? %>
+  <h2 id="<%=k%>"><%=l(@p, k)%></h2>
+  <br/>
+  <ul>
+    <% v(@p, k).each do |v| %>
+      <li><%=v%></li>
+    <% end %>
+  </ul>
+<% end %>
