@@ -9,7 +9,7 @@
       <%= render partial: 'v2/search/filters' %>
     </div>
     <div class="col-md-10">
-      <%= render partial: 'v2/search/results' %>
+      <%= render partial: 'v2/search/results', locals: { patents: @results } %>
     </div>
   </div>
 </div>
