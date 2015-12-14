@@ -1,0 +1,17 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="#">Search</a></li>
+  <li class="active"><%=@institution%></li>
+  <li class="active"><%=v(@p, :ref)%></li>
+</ol>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+      <%= render partial: 'p_sections', locals: {p: @p} %>
+    </div>
+    <div class="col-md-3">
+      <%= render partial: 'p_nav', locals: {p: @p, section_order: @section_order} %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="bs-callout bs-callout-default">
+  <h3><strong>Licensing contact</strong></h3>
+  <!-- contact section -->
+  <hr/>
+  <p>
+    <strong><%=v(@p, :licensing_contact_name)%></strong><br>
+    <% if has_data v(@p, :licensing_contact_email) %>
+      <a href="mailto:#"><%=v(@p, :licensing_contact_email)%></a><br/>
+    <% end %>
+    <% if has_data v(@p, :licensing_contact_num) %>
+      <abbr title="Phone">P:</abbr> <%=v(@p, :licensing_contact_num)%></address>
+    <% end %>
+  </p>
+</div>

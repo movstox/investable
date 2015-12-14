@@ -1,0 +1,12 @@
+<h1 id="title"><%=v @p, :title%></h1>
+<hr/>
+<%= render partial: 'p_callout_list', locals: {k: :abstract, category: :default_light, divider: :paragraph}%>
+<%= render partial: 'p_callout_list', locals: {k: :value_proposition, category: :warning}%>
+<%= render partial: 'p_text', locals: {k: :patent_applications}%>
+<%= render partial: 'p_callout_list', locals: {k: :applications, category: :success}%>
+<%= render partial: 'p_callout_list', locals: {k: :invention_novelty, category: :creative}%>
+<%= render partial: 'p_callout_list', locals: {k: :inventors, category: :danger}%>
+<%= render partial: 'p_callout_list', locals: {k: :stage_of_research}%>
+<%= render partial: 'p_callout_list', locals: {k: :publications}%>
+<%= render partial: 'p_callout_list', locals: {k: :keywords, category: :default}%>
+<%= debug @p %>

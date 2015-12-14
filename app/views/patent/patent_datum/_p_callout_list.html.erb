@@ -1,0 +1,40 @@
+<%- if has_data(v(@p,k)) %>
+  <div id="<%=k.to_s%>" class="bs-callout bs-callout-<%=(defined?(category) ? category.to_s: 'info')%>">
+    <h3><%=l(@p, k)%></h3>
+    <hr/>
+    <% if v(@p, k).kind_of?(String) %>
+      <p><%=v(@p, k)%></p>
+    <% end %>
+    <% if v(@p, k).kind_of?(Array) %>
+      <!-- if styled by paragraphs or contains just one element -->
+      <% if (defined?(divider) && divider == :paragraph) || (v(@p, k).length == 1)%>
+        <p>
+          <% v(@p, k).each do |e| %>
+            <% if e.kind_of?(String) %>
+              <%=e%><br/>
+            <% elsif e.kind_of?(Hash) %>
+              <% e.keys.each do |hash_key| %>
+                <%=e[hash_key]%> &nbsp;
+              <% end %>
+            <% end %>
+          <% end %>
+        </p>
+      <% else %>
+        <ul>
+          <% v(@p, k).each do |e| %>
+            <li>
+              <%=e%>
+              <% if e.kind_of?(String) %>
+                <%=e%>
+              <% elsif e.kind_of?(Hash) %>
+                <% e.keys.each do |hash_key| %>
+                  <%=e[hash_key]%> &nbsp;
+                <% end %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

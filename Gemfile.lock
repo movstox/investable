@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actionmailer (4.2.4)
       actionpack (= 4.2.4)
@@ -136,6 +137,11 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.4)
       sprockets-rails
+    rails-assets-Flowtype.js (1.1.0)
+      rails-assets-jquery
+    rails-assets-bootstrap (3.3.4)
+      rails-assets-jquery (>= 1.9.1)
+    rails-assets-jquery (2.1.4)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -212,6 +218,7 @@ DEPENDENCIES
   airbrake
   awesome_print
   better_errors
+  bundler (>= 1.8.4)
   byebug
   coffee-rails (~> 4.1.0)
   figaro
@@ -223,6 +230,8 @@ DEPENDENCIES
   pry-rails
   quiet_assets
   rails (= 4.2.4)
+  rails-assets-Flowtype.js!
+  rails-assets-bootstrap!
   rails_admin
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
