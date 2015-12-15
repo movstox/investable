@@ -53,8 +53,8 @@ group :development do
   gem 'better_errors'
 
   gem 'pry-rails'
-  gem 'figaro'
 end
+gem 'figaro'
 
 gem 'rails_admin'
 gem 'mechanize'
