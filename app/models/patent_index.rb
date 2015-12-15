@@ -10,9 +10,14 @@ class PatentIndex < ActiveRecord::Base
   validates :institution_id, presence: true
 
   acts_as_taggable_on :keywords
+  acts_as_taggable_on :inventors
 
   def abstract
     patent_raw.raw_data['abstract']['value']
+  end
+
+  def inventors_list
+    patent_raw.raw_data['inventors']['value'].join(', ')
   end
 
   def institution_name

@@ -14,10 +14,14 @@
       <% end %>
       <div class="bs-callout bs-callout-primary">
         <h3><%=patent.title%></h3>
-         <hr/>
-         <p>
+        <% if patent.inventor_list.any? %>
+          <strong>Inventors: </strong>
+          <%=patent.inventors_list%>
+        <% end %>
+        <hr/>
+        <p>
            <%=patent.abstract%>
-         </p>
+        </p>
        </div>
       <p>
         <a href="/patent/<%=patent.institution_name.downcase%>/<%=patent.ref%>" class="btn btn-primary" role="button">More info</a>

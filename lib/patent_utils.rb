@@ -12,7 +12,8 @@ class PatentUtils
       ref: patent_raw.patent_entry.ref,
       title: patent_raw.raw_data['title']['value'],
       patent_id: patent_raw.raw_data['ref']['value'],
-      keyword_list: keyword_list(patent_raw)
+      keyword_list: keyword_list(patent_raw),
+      inventor_list: inventor_list(patent_raw)
     }
     patent_raw.create_patent_index(index_opts)
   end
@@ -33,6 +34,19 @@ class PatentUtils
   end
 
 protected
+  def self.inventor_list(patent_raw)
+    inventors = patent_raw.raw_data['inventors']['value']
+    if inventors.kind_of?(Array)
+      inventors
+        .map{|k| k.split(' ')}
+        .flatten
+        .select{|x| !x.match(/\w\./)}
+        .join(', ')
+    else
+      ''
+    end
+  end
+
   def self.keyword_list(patent_raw)
     keywords = patent_raw.raw_data['keywords']['value']
     if keywords.kind_of?(Array)

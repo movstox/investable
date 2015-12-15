@@ -5,6 +5,11 @@ namespace :util do
       StageOfResearchIndex,
       PatentStatusIndex
     ].map(&:destroy_all)
+
+    # clean up keywords and inventors
+    ActiveRecord::Base.connection.execute('delete from taggings')
+    ActiveRecord::Base.connection.execute('delete from tags')
+
     PatentRaw.all.map(&:retry!)
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215163547) do
+ActiveRecord::Schema.define(version: 20151215215106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20151215163547) do
     t.integer  "patent_raw_id"
     t.string   "patent_id",                  null: false
     t.string   "keywords"
+    t.string   "inventors"
   end
 
   add_index "patent_indices", ["institution_id"], name: "index_patent_indices_on_institution_id", using: :btree
