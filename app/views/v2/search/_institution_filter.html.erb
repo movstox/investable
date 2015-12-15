@@ -1,9 +1,8 @@
 <div class="form-group">
-  <select class="form-control input-lg">
-    <option>Institution</option>
-    <option>2</option>
-    <option>3</option>
-    <option>4</option>
-    <option>5</option>
+  <select class="form-control input-lg" name="institution_id">
+    <option value="-1">Any institution</option>
+    <% @institutions.each do |item| %>
+      <option value="<%=item.id%>"><%=item.name%></option>
+    <% end %>
   </select>
 </div>

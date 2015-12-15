@@ -3,20 +3,31 @@ class Patent::PatentDatumController < ApplicationController
   before_action :init_scraper
 
   def berkeley
-    @p = remap @scraper.scrape_berkley(params[:ref_id])
     @institution = 'Berkeley'
+    @p = remap @scraper.scrape_berkley(params[:ref_id])
     render 'patent_view'
   end
 
+  def get_or_scrape(institution_name, ref_id)
+    institution = Institution.find_by(name: institution_name)
+    patent_index = PatentIndex
+      .find_by(institution: institution, ref: ref_id.to_i)
+    raw_data = if patent_index.present?
+        patent_index.patent_raw.raw_data
+      else
+        remap(@scraper.send(('scrape_%s'%institution_name.downcase).to_sym, ref_id))
+      end
+  end
+
   def ucsf
-    @p = remap @scraper.scrape_ucsf(params[:ref_id])
     @institution = 'UCSF'
+    @p = get_or_scrape(@institution.downcase, params[:ref_id])
     render 'patent_view'
   end
 
   def stanford
-    @p = remap @scraper.scrape_stanford(params[:ref_id])
     @institution = 'Stanford'
+    @p = remap @scraper.scrape_stanford(params[:ref_id])
     render 'patent_view'
   end
 

@@ -1,11 +1,22 @@
 class WelcomeController < ApplicationController
+  before_action :setup_filters
+  def setup_filters
+    @institutions = Institution.all
+    @stage_of_research = StageOfResearchIndex.all
+    @patent_statuses = PatentStatusIndex.all
+  end
+
   def index2
   end
 
   def index
   end
-  
+
   def search
+    @results = PatentIndex.take(10)
+  end
+  
+  def _search
     @bulk_data = [
       {
         id: 36232,

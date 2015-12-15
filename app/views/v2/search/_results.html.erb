@@ -1,5 +1,5 @@
 <div class="row">
-  <% patents.each do |patent_data| %>
-    <%= render partial: 'v2/search/patent_thumbnail', locals: {patent: patent_data[:data], id: patent_data[:id], institution: patent_data[:institution]} %>
+  <% patents.each do |patent_index| %>
+    <%= render partial: 'v2/search/patent_thumbnail', locals: {patent: patent_index} %>
   <% end %>
 </div>
