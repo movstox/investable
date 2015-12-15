@@ -2,7 +2,7 @@
   <select class="form-control input-lg" name="patent_status_index_id">
     <option value="-1"> Any patent Status</option>
     <% @patent_statuses.each do |item| %>
-      <option value="<%=item.id%>"><%=item.status%></option>
+      <option value="<%=item.id%>" <%= params[:patent_status_index_id].to_i == item.id ? 'selected': ''%>><%=item.status%></option>
     <% end %>
   </select>
 </div>

@@ -4,7 +4,7 @@ class Patent::PatentDatumController < ApplicationController
 
   def berkeley
     @institution = 'Berkeley'
-    @p = remap @scraper.scrape_berkley(params[:ref_id])
+    @p = get_or_scrape(@institution.downcase, params[:ref_id])
     render 'patent_view'
   end
 
@@ -27,7 +27,8 @@ class Patent::PatentDatumController < ApplicationController
 
   def stanford
     @institution = 'Stanford'
-    @p = remap @scraper.scrape_stanford(params[:ref_id])
+    @p = get_or_scrape(@institution.downcase, params[:ref_id])
+    render 'patent_view'
     render 'patent_view'
   end
 

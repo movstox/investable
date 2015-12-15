@@ -1,4 +1,4 @@
 <div class="form-group">
   <label class="sr-only" for="exampleInputEmail3">Patent Id</label>
-  <input type="text" class="form-control input-lg" id="ref" placeholder="Patent ID">
+  <input type="text" class="form-control input-lg" name="patent_id" placeholder="Patent ID" value="<%= params.has_key?(:patent_id) ? params[:patent_id] : '' %>">
 </div>
