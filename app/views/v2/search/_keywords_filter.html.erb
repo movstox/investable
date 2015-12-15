@@ -1,6 +1,4 @@
 <div class="form-group">
   <label class="sr-only" for="keywords">Keywords</label>
-  <textarea class="form-control input-lg" name="keywords" placeholder="Keywords">
-    <%= params.has_key?(:keywords) ? params[:keywords] : '' %>
-  </textarea>
+  <textarea class="form-control input-lg" name="keywords" placeholder="Keywords"><%= params.has_key?(:keywords) ? params[:keywords] : '' %></textarea>
 </div>
