@@ -34,6 +34,8 @@ namespace :stanford do
       .where(state: 'new', institution: institution)
       .each do |patent_entry|
         begin
+          p 'Processing patent entry #%s' % patent_entry.id
+          sleep 2+rand(10)/10.0
           raw_data = scraper.scrape_stanford(patent_entry.ref)
           patent_entry.patent_raw.destroy if patent_entry.patent_raw.present? # destroy old result if present
           patent_raw = patent_entry.create_patent_raw(raw_data: raw_data)

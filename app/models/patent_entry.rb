@@ -11,5 +11,9 @@ class PatentEntry < ActiveRecord::Base
     event :cancel do
       transition any => :cancelled
     end
+
+    event :retry do
+      transition :cancelled => :new
+    end
   end
 end
