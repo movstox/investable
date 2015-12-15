@@ -29,7 +29,6 @@ class Patent::PatentDatumController < ApplicationController
     @institution = 'Stanford'
     @p = get_or_scrape(@institution.downcase, params[:ref_id])
     render 'patent_view'
-    render 'patent_view'
   end
 
   protected

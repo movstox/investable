@@ -8,9 +8,13 @@
           [<%=patent.patent_status_index.status%>]
         </li>
       </ol>
-      <h3>
-         <%=patent.title%>
-      </h3>
+      <div class="bs-callout bs-callout-primary">
+        <h3><%=patent.title%></h3>
+         <hr/>
+         <p>
+          <%=patent.patent_raw.raw_data['abstract']['value']%>
+         </p>
+       </div>
       <p>
         <a href="/patent/<%=patent.institution.name.downcase%>/<%=patent.ref%>" class="btn btn-primary" role="button">More info</a>
       </p>
