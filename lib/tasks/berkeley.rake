@@ -37,4 +37,17 @@ namespace :berkeley do
       page = agent.submit(f, f.buttons[2])
     end
   end
+
+  task :scrape => :environment do
+    institution = Institution.find_by(name: 'Berkeley')
+    PatentEntry
+      .where(state: 'new', institution: institution)
+      .each do |patent_entry|
+        scraper = ::PatentDatumScraper::Base.new
+        raw_data = scraper.scrape_berkley(patent_entry.ref)
+        patent_entry.patent_raw.destroy if patent_entry.patent_raw.present? # destroy old result if present
+        patent_raw = patent_entry.create_patent_raw(raw_data: raw_data)
+        patent_entry.scrape! if patent_raw.valid?
+      end
+  end
 end

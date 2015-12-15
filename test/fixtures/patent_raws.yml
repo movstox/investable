@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  raw_data: 
+  patent_entry_id: 
+  state: MyString
+
+two:
+  raw_data: 
+  patent_entry_id: 
+  state: MyString
