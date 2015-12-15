@@ -36,7 +36,7 @@ namespace :stanford do
         begin
           p 'Processing patent entry #%s' % patent_entry.id
           sleep 2+rand(10)/10.0
-          raw_data = scraper.scrape_stanford(patent_entry.ref)
+          raw_data = ::PatentUtils.remap scraper.scrape_stanford(patent_entry.ref)
           patent_entry.patent_raw.destroy if patent_entry.patent_raw.present? # destroy old result if present
           patent_raw = patent_entry.create_patent_raw(raw_data: raw_data)
           if patent_raw.valid?
@@ -46,6 +46,25 @@ namespace :stanford do
           end  
         rescue Exception => e
           patent_entry.cancel!
+          ::ErrorReporter.report(e)
+        end
+      end
+  end
+
+  task :index => :environment do
+    institution = Institution.find_by(name: 'Stanford')
+    PatentRaw
+      .where(state: 'new', institution: institution)
+      .each do |patent_raw|
+        begin
+          patent_index = ::PatentUtils.index(patent_raw: patent_raw)
+          if patent_index.valid?
+            patent_raw.converted!
+          else
+            patent_raw.cancel!
+          end  
+        rescue Exception => e
+          patent_raw.cancel!
           ::ErrorReporter.report(e)
         end
       end

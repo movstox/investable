@@ -11,7 +11,7 @@ class ErrorReporter
       {}
     end
     error_id = Airbrake.notify_or_ignore(e, parameters: params, cgi_data: ENV.to_hash, session: session)
-    ap e.backtrace.take(10)
+    ap e.backtrace
     p 'Reported via Airbrake: %s' % error_id
   end
 end
