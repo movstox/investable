@@ -7,4 +7,20 @@ class PatentIndex < ActiveRecord::Base
   validates :stage_of_research_index_id, presence: true
   validates :patent_status_index_id, presence: true
   validates :institution_id, presence: true
+  
+  def abstract
+    patent_raw.raw_data['abstract']['value']
+  end
+
+  def institution_name
+    institution.name
+  end
+  
+  def status_label
+    patent_status_index.status
+  end
+
+  def stage_of_research_label
+    stage_of_research_index.stage
+  end
 end

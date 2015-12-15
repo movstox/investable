@@ -5,18 +5,18 @@
         <li><%=patent.institution.name%></li>
         <li><%=patent.patent_id%></li>
         <li class="active">
-          [<%=patent.patent_status_index.status%>]
+          [<%=patent.status_label%>]
         </li>
       </ol>
       <div class="bs-callout bs-callout-primary">
         <h3><%=patent.title%></h3>
          <hr/>
          <p>
-          <%=patent.patent_raw.raw_data['abstract']['value']%>
+           <%=patent.abstract%>
          </p>
        </div>
       <p>
-        <a href="/patent/<%=patent.institution.name.downcase%>/<%=patent.ref%>" class="btn btn-primary" role="button">More info</a>
+        <a href="/patent/<%=patent.institution_name.downcase%>/<%=patent.ref%>" class="btn btn-primary" role="button">More info</a>
       </p>
     </div>
   </div>
