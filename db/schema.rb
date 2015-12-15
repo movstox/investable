@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215123220) do
+ActiveRecord::Schema.define(version: 20151215151411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,9 +48,11 @@ ActiveRecord::Schema.define(version: 20151215123220) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "patent_raw_id"
+    t.string   "patent_id",                  null: false
   end
 
   add_index "patent_indices", ["institution_id"], name: "index_patent_indices_on_institution_id", using: :btree
+  add_index "patent_indices", ["patent_id"], name: "index_patent_indices_on_patent_id", unique: true, using: :btree
   add_index "patent_indices", ["patent_raw_id"], name: "index_patent_indices_on_patent_raw_id", using: :btree
   add_index "patent_indices", ["patent_status_index_id"], name: "index_patent_indices_on_patent_status_index_id", using: :btree
   add_index "patent_indices", ["ref", "institution_id"], name: "index_patent_indices_on_ref_and_institution_id", using: :btree
