@@ -13,7 +13,8 @@ class PatentIndex < ActiveRecord::Base
   acts_as_taggable_on :inventors
 
   def abstract
-    patent_raw.raw_data['abstract']['value']
+    abstract_data = patent_raw.raw_data['abstract']['value']
+    abstract_data.kind_of?(Array) ? abstract_data.join(' ') : abstract_data 
   end
 
   def inventors_list
