@@ -10,7 +10,9 @@ class PatentUtils
       patent_status_index: find_patent_status_index(patent_status(patent_raw)),
       institution: patent_raw.institution,
       ref: patent_raw.patent_entry.ref,
-      title: patent_raw.raw_data['title']['value']
+      title: patent_raw.raw_data['title']['value'],
+      patent_id: patent_raw.raw_data['ref']['value'],
+      keyword_list: keyword_list(patent_raw)
     }
     patent_raw.create_patent_index(index_opts)
   end
@@ -31,6 +33,15 @@ class PatentUtils
   end
 
 protected
+  def self.keyword_list(patent_raw)
+    keywords = patent_raw.raw_data['keywords']['value']
+    if keywords.kind_of?(Array)
+      keywords.join(', ')
+    else
+      ''
+    end
+  end
+
   def self.patent_status(patent_raw)
     patent_raw.raw_data['patent_status']['value']
   end

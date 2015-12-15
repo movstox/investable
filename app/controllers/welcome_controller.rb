@@ -21,6 +21,12 @@ class WelcomeController < ApplicationController
                else
                  @results
                end
+    @results = if !params[:keywords].present? or params[:keywords].empty?
+                 @results
+               else
+                 @results
+                  .tagged_with(params[:keywords].split(','), :any => true)
+               end
   end
 
   protected

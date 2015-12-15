@@ -8,6 +8,10 @@
           [<%=patent.status_label%>]
         </li>
       </ol>
+      <% if patent.keyword_list.any? %>
+        <strong>Keywords: </strong>
+        <%=patent.keyword_list%>
+      <% end %>
       <div class="bs-callout bs-callout-primary">
         <h3><%=patent.title%></h3>
          <hr/>
