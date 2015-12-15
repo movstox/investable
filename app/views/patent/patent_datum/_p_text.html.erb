@@ -1,4 +1,4 @@
-<%- if v(@p, k).any? %>
+<%- if v(@p, k).present? && v(@p, k).any? %>
   <h2 id="<%=k%>"><%=l(@p, k)%></h2>
   <br/>
   <blockquote><%=v(@p, k)%></blockquote>

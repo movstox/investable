@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.2.3'
 
 gem 'bundler', '>= 1.8.4'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -52,8 +53,8 @@ group :development do
   gem 'better_errors'
 
   gem 'pry-rails'
-  gem 'figaro'
 end
+gem 'figaro'
 
 gem 'rails_admin'
 gem 'mechanize'
@@ -61,3 +62,4 @@ gem 'haml'
 gem 'airbrake'
 gem 'awesome_print'
 gem 'quiet_assets'
+gem 'state_machines-activerecord'

@@ -84,7 +84,8 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   def patent_status_ref
     patent_status_ref_section = page.search('//h3[contains(., "Patent Status")]')
     if patent_status_ref_section.any?
-      patent_status_ref_table = patent_status_ref_section.first.try(:next).next
+      patent_status_ref_table = patent_status_ref_section.first.try(:next)
+      patent_status_ref_table = patent_status_ref_table.next  if patent_status_ref_table.text.gsub(/\s/,'').empty?
       if patent_status_ref_table.name == 'table'
         patent_status_ref_table.children.search('tr')[1].children[5].text.gsub(/,/,'')
       else
@@ -115,7 +116,8 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
   def patent_status
     patent_status_section = page.search('//h3[contains(., "Patent Status")]')
     if patent_status_section.any?
-      patent_status_section_content = patent_status_section.first.next.next
+      patent_status_section_content = patent_status_section.first.next
+      patent_status_section_content = patent_status_section_content.next  if patent_status_section.text.gsub(/\s/,'').empty?
       if patent_status_section_content.name == 'p'
         patent_status_section_content.text
       else
@@ -134,15 +136,17 @@ class PatentDatumParser::UCSF < PatentDatumParser::Base
     patent_applications_section = page.search('//h3[starts-with(., "Patent Status")]')
     if patent_applications_section.any?
       patent_applications_contents = patent_applications_section.first.next.next
-      patent_applications_contents.children.search('//*[contains(@class,"patentRow")]').map do |row|
-        columns = row.search('td')
-        {
-          country: columns[0].text,
-          type: columns[1].text,
-          number: columns[2].text,
-          ref_date: columns[3].text,
-          case: columns[4].text
-        }
+      if patent_applications_contents.present?
+        patent_applications_contents.children.search('//*[contains(@class,"patentRow")]').map do |row|
+          columns = row.search('td')
+          {
+            country: columns[0].text,
+            type: columns[1].text,
+            number: columns[2].text,
+            ref_date: columns[3].text,
+            case: columns[4].text
+          }
+        end
       end
     else
       []

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stage_of_research_index_id: 
+  patent_status_index_id: 
+  institution_id: 
+  title: MyString
+  ref: 1
+
+two:
+  stage_of_research_index_id: 
+  patent_status_index_id: 
+  institution_id: 
+  title: MyString
+  ref: 1
