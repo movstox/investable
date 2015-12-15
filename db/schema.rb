@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151101085642) do
+ActiveRecord::Schema.define(version: 20151214230044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "institutions", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "patent_data", force: :cascade do |t|
     t.json     "datum"
@@ -22,4 +28,16 @@ ActiveRecord::Schema.define(version: 20151101085642) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "patent_entries", force: :cascade do |t|
+    t.integer  "institution_id"
+    t.integer  "ref"
+    t.string   "state",          null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "patent_entries", ["institution_id"], name: "index_patent_entries_on_institution_id", using: :btree
+  add_index "patent_entries", ["ref", "institution_id"], name: "index_patent_entries_on_ref_and_institution_id", unique: true, using: :btree
+
+  add_foreign_key "patent_entries", "institutions"
 end
