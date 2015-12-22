@@ -1,4 +1,17 @@
 namespace :util do
+
+  task :sync_all => :environment do
+    Rake::Task["ucsf:sync"].invoke
+    Rake::Task["stanford:sync"].invoke
+    Rake::Task["berkeley:sync"].invoke
+  end
+
+  task :scrape_all => :environment do
+    Rake::Task["ucsf:scrape"].invoke
+    Rake::Task["stanford:scrape"].invoke
+    Rake::Task["berkeley:scrape"].invoke
+  end
+
   task :clean_index => :environment do
     [
       PatentIndex,

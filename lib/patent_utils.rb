@@ -57,15 +57,19 @@ protected
   end
 
   def self.patent_status(patent_raw)
-    patent_raw.raw_data['patent_status']['value']
+    patent_status = patent_raw.raw_data['patent_status']['value']
+    if patent_status.gsub(/\s/,'').empty?
+      patent_status = 'N/A'
+    end
+    patent_status
   end
 
   def self.stage_of_research(patent_raw)
     val = patent_raw.raw_data['stage_of_research']['value']
     if val.kind_of?(Array)
-      val.join('') 
+      val.any? ? val.join('') : 'N/A'
     else
-      val
+      val.gsub(/\s/,'').empty? ? 'N/A' : val
     end
   end
 

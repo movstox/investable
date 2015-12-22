@@ -45,6 +45,9 @@ namespace :stanford do
           if patent_raw.valid?
             patent_entry.scrape!
           else
+            Airbrake.notify_or_ignore(
+              error_message: patent_raw.errors.full_messages.join('.')
+            )
             patent_entry.cancel!
           end  
         rescue Exception => e
@@ -66,10 +69,14 @@ namespace :stanford do
       .where(state: 'new', institution: institution)
       .each do |patent_raw|
         begin
+          p 'Processing #%s' % patent_raw.id
           patent_index = ::PatentUtils.index(patent_raw: patent_raw)
           if patent_index.valid?
             patent_raw.converted!
           else
+            Airbrake.notify_or_ignore(
+              error_message: patent_index.errors.full_messages.join('.')
+            )
             patent_raw.cancel!
           end  
         rescue Exception => e

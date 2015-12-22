@@ -56,6 +56,9 @@ namespace :berkeley do
           if patent_raw.valid?
             patent_entry.scrape!
           else
+            Airbrake.notify_or_ignore(
+              error_message: patent_raw.errors.full_messages.join('.')
+            )
             patent_entry.cancel!
           end  
         rescue Exception => e
@@ -81,6 +84,9 @@ namespace :berkeley do
           if patent_index.valid?
             patent_raw.converted!
           else
+            Airbrake.notify_or_ignore(
+              error_message: patent_index.errors.full_messages.join('.')
+            )
             patent_raw.cancel!
           end  
         rescue Exception => e
